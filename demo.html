@@ -66,19 +66,10 @@
 					</section>
 				</section>
 
-
-
-				<section style="text-align:left;">
-					<p>規格</p>
-					<p><a style="padding-left:1em;" href="https://docs.google.com/document/d/1U1RGAehQwRypUTovF1KRlpiOFze0b-_2gc6fAH0KY0k/edit">Source Map Revision 3</a></p>
-
-					<p>sourcemap objectをハンドリングするライブラリ</p>
-					<p>babel, webpack, uglifyなど大体みんな使っている(TypeScriptはなんか使ってない)</p>
-					<p><a style="padding-left:1em;" href="https://github.com/mozilla/source-map">mozilla/source-map</a></p>
-
-					<p>多段sourcemapに対応したい方はこちら</p>
-					<p>mozilla/sourcemapの使い方を理解したい際のサンプルコードとして使える</p>
-					<p><a style="padding-left:1em;" href="https://github.com/azu/multi-stage-sourcemap">multi-stage-sourcemap</a></p>
+				<section>
+					<h2>caution!</h2>
+					<p>発表内容は発表者の独自調査によるものです</p>
+					<p>間違ってたらすみません</p>
 				</section>
 
 				<section style="text-align:left;">
@@ -114,54 +105,43 @@
 	file: string;					// ソースマップの対象ファイル
 	sourceRoot?: string;			// 基準となるディレクトリ
 	sources: string[]; 				// 対象ファイルの元となったファイル
-	sourcesContent?: string[]; 		// inlineの場合、ここにmappingが出力される
+	sourcesContent?: string[]; 		// 変換元となったソース
 	names: string[];				// 対象ファイルに出力されている単語
 	mappings: string; 				// 生成前のファイルとの位置関係
 }
 						</code>
 					</pre>
 				</section>
-
+				
 				<section>
+					<section style="text-align:left;">
+						<p>sourcesContent</p>
+						<p>変換前のソース。ts=>jsであればtsのファイルの内容が出力されている</p>
+						<p>sourcemapを使用している場合、ブラウザはfileから変換前のソースを参照しにいく</p>
+						<p>その際に対象のファイルが存在しないと、何も書かれていないファイルが表示される</p>
+						<p>sourcesContentに値が変換前のソースがあれば、優先して参照するので変換前のソースがなくても大丈夫</p>
+					</section>
+
 				<section style="text-align:left;">
-					<p>interfaceと概要</p>
-						<pre>
-							<code class="hljs" data-trim contenteditable>
-{
-	// この辺、説明雑すぎるのでもう少し詳しく
-	sourcesContent?: string[]; 		// inlineの場合、ここにmappingが出力される
-	names: string[];				// 対象ファイルに出力されている単語
-	mappings: string; 				// 生成前のファイルとの位置関係
-}
-						</code>
-					</pre>
-				</section>
+						<p>対象のファイルが存在する場合</p>
+						<img src="img/exsitOriginal.png" alt="" />
+					</section>
+					
+					<section style="text-align:left;">
+						<p>対象のファイルが存在しない場合</p>
+						<img src="img/nonExsitOriginal.png" alt="" />
+					</section>
+
 				</section>
 
 				<section>
-					<h2>ぶっちゃけ覚える必要あった?</h2>
+					<h2>ぶっちゃけ調べる必要あった?</h2>
 				</section>
 
 				<section>
 					<h2>ないです</h2>
+					<p>大体知らないでもwebpackとかが解決してくれてます</p>
 				</section>
-
-
-					<section>
-						<pre>
-							<code class="hljs" data-trim contenteditable>
-export interface Props {
-	name: string
-	label: string
-	index: number
-}
-
-export class Row extends React.Component< Props, {} > {
-	// 略
-}
-								</code>
-						</pre>
-					</section>
 
 
 				<section style="text-align:left;">
@@ -169,6 +149,18 @@ export class Row extends React.Component< Props, {} > {
 					<h3>明日に約立つsourcemap雑</h3>
 				</section>
 
+				<section style="text-align:left;">
+					<p>規格</p>
+					<p><a style="padding-left:1em;" href="https://docs.google.com/document/d/1U1RGAehQwRypUTovF1KRlpiOFze0b-_2gc6fAH0KY0k/edit">Source Map Revision 3</a></p>
+
+					<p>sourcemap objectをハンドリングするライブラリ</p>
+					<p>babel, webpack, uglifyなど大体みんな使っている(TypeScriptは使ってない)</p>
+					<p><a style="padding-left:1em;" href="https://github.com/mozilla/source-map">mozilla/source-map</a></p>
+
+					<p>多段sourcemapに対応したい方はこちら</p>
+					<p>mozilla/sourcemapの使い方を理解したい際のサンプルコードとして使える</p>
+					<p><a style="padding-left:1em;" href="https://github.com/azu/multi-stage-sourcemap">multi-stage-sourcemap</a></p>
+				</section>
 
 
 			</div>

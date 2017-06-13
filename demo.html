@@ -140,6 +140,78 @@
 					<p>mappingsの文字列内で使用される</p>
 					<p>重複されて記述されることはない</p>
 				</section>
+
+				<section>
+					<section style="text-align:left;">
+						<p>mappings</p>
+						<p>Base64 VLQというフォーマット</p>
+						<p>絶対的に情報を指定するのではなく、相対的に情報を指定することで情報を圧縮している</p>
+						<p>恐ろしく複雑なのにsourcemapの規格書には詳細は定義されていない(どこにあるの…?)</p>
+
+						<p>こんなん↓</p>
+						<p>;AAAAA,EAAE,gBABC,CAAEB;</p>
+					</section>
+
+					<section style="text-align:left;">
+						<p>数値の規則</p>
+						<p>-2<sup>31</sup> 〜 2<sup>31</sup>-1 が表現できる</p>
+
+
+
+						<p>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/</p>
+						<p>Aが0,/が63</p>
+
+						<p>与えられた数値numをまず2進数に直す</p>
+						<pre>
+							<code class="hljs" data-trim contenteditable>
+						for (var i = 0; i < segment.length; ++i) {
+									var c = segment.charAt(i);
+									digit = BASE64_DIGIT_MAP[c];
+
+									if (digit === undefined){
+										return setResult("", "Invalid digit at index " + i + " ('" + c + "')");
+									}
+
+									continuation = digit & VLQ_CONTINUATION_BIT;
+									digit &= VLQ_BASE_MASK;
+									resultValue += digit << shift;
+									shift += VLQ_BASE_SHIFT;
+
+									if (continuation === 0) {
+										const isNegative = (resultValue & 1) == 1;
+										resultValue >>= 1;
+										numbersInSegment.push(isNegative ? -resultValue : resultValue);
+
+										resultValue = 0;
+										shift = 0;
+									}
+							}
+							</code>
+						</pre>
+						<!--<p>変換後の列、sourcesのindex、変換前の行、変換前の列、nameのindex</p>
+						<p>Output column, input file name index, input line, input column, name index</p>-->
+					</section>
+				</section>
+
+				<section style="text-align:left;">
+					<h2>Base64 VLQの参考リンク</h2>
+					<p style="line-height:2;">
+						<a href="https://blogs.msdn.microsoft.com/davidni/2016/03/14/source-maps-under-the-hood-vlq-base64-and-yoda">
+							MS社の人の独自研究。規則性が知りたければこれ
+						</a>
+					</p>
+					<p style="line-height:2;">
+						<a href="http://murzwin.com/base64vlq.html">
+							BASE64のcoder/decoder。ソースが簡単に読める
+						</a>
+					</p>
+					<p style="line-height:2;">
+						<a href="http://safx-dev.blogspot.jp/2013/08/javascriptsource-map.html">
+							変換前後のsourcemapの対応図が非常にわかりやすい
+						</a>
+					</p>
+				</section>
+
 				<section>
 					<h2>ぶっちゃけ調べる必要あった?</h2>
 				</section>
@@ -156,30 +228,26 @@
 				</section>
 
 				<section style="text-align:left;">
-					<p>規格</p>
-					<p><a style="padding-left:1em;" href="https://docs.google.com/document/d/1U1RGAehQwRypUTovF1KRlpiOFze0b-_2gc6fAH0KY0k/edit">Source Map Revision 3</a></p>
+					<h4>ライブラリ</h4>
 
-					<p>sourcemap objectをハンドリングするライブラリ</p>
-					<p>babel, webpack, uglifyなど大体みんな使っている(TypeScriptは使ってない)</p>
-					<p><a style="padding-left:1em;" href="https://github.com/mozilla/source-map">mozilla/source-map</a></p>
+					<p>
+						<a href="https://github.com/mozilla/source-map">
+							mozilla/source-map
+						</a>
+					</p>
+					<p>sourcemapを作成やsourcemap同士の関連付けに使える</p>
+					<p>babel, webpack, uglifyなどが使用(TypeScriptは未使用)</p>
 
-					<p>多段sourcemapに対応したい方はこちら</p>
-					<p>mozilla/sourcemapの使い方を理解したい際のサンプルコードとして使える</p>
-					<p><a style="padding-left:1em;" href="https://github.com/azu/multi-stage-sourcemap">multi-stage-sourcemap</a></p>
+					<p style="line-height:2;">
+						<a href="https://github.com/azu/multi-stage-sourcemap">
+							azu/multi-stage-sourcemap
+						</a>
+					</p>
+					<p>お手軽簡単に多段ソースマップが作成できる</p>
+					<p>上のライブラリのサンプルコードとして使える</p>
 				</section>
 
-				<section>
-					<h2>Base64 VLQの参考リンク</h2>
-					<a href="https://blogs.msdn.microsoft.com/davidni/2016/03/14/source-maps-under-the-hood-vlq-base64-and-yoda/">
-						MS社の人のsourcemapの独自研究。Base64 VLQを非常に詳しく解析している
-					</a>
-					<a href="http://murzwin.com/base64vlq.html">
-						BASE64のcoder/decoder。ソースが圧縮されていないので簡単に読める
-					</a>
-					<a href="http://safx-dev.blogspot.jp/2013/08/javascriptsource-map.html">
-						変換前と変換後のsourcemapの対応の図が非常にわかりやすい
-					</a>
-				</section>
+
 
 
 			</div>

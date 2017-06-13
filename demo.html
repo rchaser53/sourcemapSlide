@@ -115,14 +115,12 @@
 				
 				<section>
 					<section style="text-align:left;">
-						<p>sourcesContent</p>
-						<p>変換前のソース。ts=>jsであればtsのファイルの内容が出力されている</p>
-						<p>sourcemapを使用している場合、ブラウザはfileから変換前のソースを参照しにいく</p>
-						<p>その際に対象のファイルが存在しないと、何も書かれていないファイルが表示される</p>
-						<p>sourcesContentに値が変換前のソースがあれば、優先して参照するので変換前のソースがなくても大丈夫</p>
+						<p>sourcesRootとsources</p>
+						<p>変換前のファイルの位置を示す</p>
+						<p>ファイルが存在しないと参照した際に何も表示されない</p>
 					</section>
 
-				<section style="text-align:left;">
+					<section style="text-align:left;">
 						<p>対象のファイルが存在する場合</p>
 						<img src="img/exsitOriginal.png" alt="" />
 					</section>
@@ -131,14 +129,29 @@
 						<p>対象のファイルが存在しない場合</p>
 						<img src="img/nonExsitOriginal.png" alt="" />
 					</section>
+				</section>
 
+				<section>
+					<section style="text-align:left;">
+						<p>sourcesContent</p>
+						<p>変換前のソース</p>
+						<p>ts=>jsであればtsのファイルの内容が出力されている</p>
+						<p>sourcesより優先して見にいく</p>
+					</section>
+
+					<section>
+						<p>こんな感じに書かれている</p>
+						<p>サーバに変換前のファイルを配置しなくてよくなる</p>
+						<img src="img/sourcesContent.png" alt="" />
+					</section>
 				</section>
 
 				<section style="text-align:left;">
 					<p>name</p>
-					<p>変換後のファイルに記述されている単語が配列として保存されている</p>
-					<p>mappingsの文字列内で使用される</p>
+					<p>変換後のファイルにの単語が配列として保存されている</p>
+					<p>mappingsで使用される</p>
 					<p>重複されて記述されることはない</p>
+					<p>[]でも普通に動く</p>
 				</section>
 
 				<section>

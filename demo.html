@@ -73,7 +73,9 @@
 				</section>
 
 				<section style="text-align:left;">
-					<p>規格(Source Map Revision 3)</p>
+					<p>
+						<a href="https://docs.google.com/document/d/1U1RGAehQwRypUTovF1KRlpiOFze0b-_2gc6fAH0KY0k/edit">規格(Source Map Revision 3)</a>
+					</p>
 
 					<p>2011/4/12年に初版に初版が公開</p>
 					<p>非常に短く実質7pくらいしかないので気軽に読める量(気軽に読める内容とは言っていない)</p>
@@ -81,6 +83,7 @@
 
 				<section style="text-align:left;">
 					<p>sourcemapの出力結果</p>
+					<p>実際は1行だけど見づらいから改行している</p>
 						<pre>
 							<code class="hljs" data-trim contenteditable>
 {
@@ -118,6 +121,8 @@
 						<p>sourcesRootとsources</p>
 						<p>変換前のファイルの位置を示す</p>
 						<p>ファイルが存在しないと参照した際に何も表示されない</p>
+						<p>sourcesRootが空文字なケースもある</p>
+						<p>(sourcesに全部書かれている)</p>
 					</section>
 
 					<section style="text-align:left;">
@@ -136,7 +141,7 @@
 						<p>sourcesContent</p>
 						<p>変換前のソース</p>
 						<p>ts=>jsであればtsのファイルの内容が出力されている</p>
-						<p>sourcesより優先して見にいく</p>
+						<p>sourcesより優先される</p>
 					</section>
 
 					<section>
@@ -158,47 +163,112 @@
 					<section style="text-align:left;">
 						<p>mappings</p>
 						<p>Base64 VLQというフォーマット</p>
-						<p>絶対的に情報を指定するのではなく、相対的に情報を指定することで情報を圧縮している</p>
+						<p>絶対的に情報を指定せず、相対的に情報を指定する</p>
 						<p>恐ろしく複雑なのにsourcemapの規格書には詳細は定義されていない(どこにあるの…?)</p>
+
+						<p>こんなん↓</p>
+						<p>;AAAAA,EAAE,gBABC,CAAEB;</p>
+
+						<!--<p>ZigZagエンコーディングに似ている気がするけど関係とかあるんですかね…？</p>-->
+					</section>
+
+					<section style="text-align:left;">
+						<p>数値の規則</p>
+						<p style="line-height:1;margin:0;">-2<sup>31</sup> 〜 2<sup>31</sup>-1 が表現できる</p>
+
+						<pre style="margin:0;">
+							<code class="hljs" data-trim contenteditable>
+/* 以下の文字列は64文字存在する。「A」を0, 「/」を63とする */
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+abcdefghijklmnopqrstuvwxyz
+0123456789+/
+							</code>
+						</pre>
+						<p></p>
+						<p>任意の一単語は6桁の桁の2進数を意味する</p>
+
+						<div style="display:flex;line-height:0.5em;">
+							<p style="width:50%;">A => 000000</p>
+							<p style="width:50%;">C => 000010</p>
+						</div>
+
+						<div style="display:flex;">
+							<p style="width:50%;">Q => 010001</p>
+							<p style="width:50%;">g => 100000</p>
+						</div>
+					</section>
+
+					<section style="text-align:left;">
+						<p>6桁の数字の意味</p>
+
+						<table>
+							<tbody>
+								<tr>
+									<td>上1桁</td>
+									<td>continuous bit</td>
+									<td>次の単語のbitを5bitシフトする</td>
+								</tr>
+
+								<tr>
+									<td>中4桁</td>
+									<td>number bit</td>
+									<td>実際の値を示す</td>
+								</tr>
+
+								<tr>
+									<td>下1桁</td>
+									<td>sign bit</td>
+									<td>正の値か負の値か</td>
+								</tr>
+							</tbody>
+
+						</table>
+
+						<div style="display:flex;">
+							<div style="width:50%">
+								<p>ターゲット: G</p>
+								<p>2進数: 000110</p>
+								<p>結論: 3</p>
+							</div>
+							<div style="width:50%">
+								<p>continuous bit: 0</p>
+								<p>number bit: 0011</p>
+								<p>sign bit: 0</p>
+							</div>
+						</div>
+					</section>
+
+
+					<section style="text-align:left;">
+						<p>タノシイBase64 VLQの世界</p>
 
 						<p>こんなん↓</p>
 						<p>;AAAAA,EAAE,gBABC,CAAEB;</p>
 					</section>
 
 					<section style="text-align:left;">
-						<p>数値の規則</p>
-						<p>-2<sup>31</sup> 〜 2<sup>31</sup>-1 が表現できる</p>
-
-
-
-						<p>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/</p>
-						<p>Aが0,/が63</p>
-
-						<p>与えられた数値numをまず2進数に直す</p>
+						<p>こんなのスライドで説明していられるか!</p>
+						<p>俺は家に帰らせてもらう!!</p>
 						<pre>
 							<code class="hljs" data-trim contenteditable>
-						for (var i = 0; i < segment.length; ++i) {
-									var c = segment.charAt(i);
-									digit = BASE64_DIGIT_MAP[c];
+for (var i = 0; i < segment.length; ++i) {
+	var c = segment.charAt(i);
+	digit = BASE64_DIGIT_MAP[c];
 
-									if (digit === undefined){
-										return setResult("", "Invalid digit at index " + i + " ('" + c + "')");
-									}
+	continuation = digit & VLQ_CONTINUATION_BIT;
+	digit &= VLQ_BASE_MASK;
+	resultValue += digit << shift;
+	shift += VLQ_BASE_SHIFT;
 
-									continuation = digit & VLQ_CONTINUATION_BIT;
-									digit &= VLQ_BASE_MASK;
-									resultValue += digit << shift;
-									shift += VLQ_BASE_SHIFT;
+	if (continuation === 0) {
+		const isNegative = (resultValue & 1) == 1;
+		resultValue >>= 1;
+		numbersInSegment.push(isNegative ? -resultValue : resultValue);
 
-									if (continuation === 0) {
-										const isNegative = (resultValue & 1) == 1;
-										resultValue >>= 1;
-										numbersInSegment.push(isNegative ? -resultValue : resultValue);
-
-										resultValue = 0;
-										shift = 0;
-									}
-							}
+		resultValue = 0;
+		shift = 0;
+	}
+}
 							</code>
 						</pre>
 						<!--<p>変換後の列、sourcesのindex、変換前の行、変換前の列、nameのindex</p>
@@ -226,12 +296,48 @@
 				</section>
 
 				<section>
+					<section style="text-align:left;">
+						<h2>例外</h2>
+						<p>webpackの出力するsourcemap</p>
+						<p>これまでに紹介してきたのとフォーマット全く違う</p>
+						<p style="line-height:2;">
+							正直あれが何なのかさっぱり分からない。誰か助けて…
+						</p>
+					</section>
+					<section style="text-align:left;">
+						<p>devtool: eval</p>
+						<img alt="" src="img/unknownFormatEval.png" />
+					</section>
+
+					<section style="text-align:left;">
+
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h3>sourcemap色々</h3>
+						<p>inline sourcemap</p>
+						<p>変換前のファイルが不要</p>
+						<p>header使って別サーバに配置できる</p>
+					</section>
+
+					<section>
+						<p>inline sourcemap</p>
+						<p></p>
+						<p>変換前のファイルが不要</p>
+						<p>header使って別サーバに配置できる</p>
+					</section>
+				</section>
+
+				<section>
 					<h2>ぶっちゃけ調べる必要あった?</h2>
 				</section>
 
 				<section>
 					<h2>ないです</h2>
 					<p>大体知らないでもwebpackとかが解決してくれてます</p>
+					<p>独自でAltJsとかやりたい際には役に立つのではないでしょうか?</p>
 				</section>
 
 

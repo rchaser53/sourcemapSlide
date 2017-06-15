@@ -42,7 +42,8 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<p style="font-size:86px;">明日に役たたないSourcemap雑学</p>
+					<p style="font-size:86px;">Source Map Revision 3</p>
+					<p style="font-size:86px;">概要</p>
 					<p><a href="https://twitter.com/rChaser53">@rchaser53</a></p>
 					<img alt="" src="./img/neko.jpg" />
 				</section>
@@ -64,6 +65,15 @@
 						</table>
 
 					</section>
+				</section>
+
+				<section>
+					<h2>SORABITO 株式会社</h2>
+					<p>ALLSTOCKERとかいう重機のサイト作ってます</p>
+					<p>資料作成間に合わない</p>
+					<p>宣伝するから時間くれって言ったらくれました</p>
+					<p>いい会社なのではないでしょうか?</p>
+					<p>エンジニア募集中です</p>
 				</section>
 
 				<section>
@@ -118,7 +128,9 @@
 				
 				<section>
 					<section style="text-align:left;">
-						<p>sourcesRootとsources</p>
+						<p style="font-size:48px;">sourcesRootとsources</p>
+						<div style="display:block;height:5px;"></div>
+
 						<p>変換前のファイルの位置を示す</p>
 						<p>ファイルが存在しないと参照した際に何も表示されない</p>
 						<p>sourcesRootが空文字なケースもある</p>
@@ -138,7 +150,9 @@
 
 				<section>
 					<section style="text-align:left;">
-						<p>sourcesContent</p>
+						<p style="font-size:48px;">sourcesContent</p>
+						<div style="display:block;height:5px;"></div>
+
 						<p>変換前のソース</p>
 						<p>ts=>jsであればtsのファイルの内容が出力されている</p>
 						<p>sourcesより優先される</p>
@@ -152,7 +166,9 @@
 				</section>
 
 				<section style="text-align:left;">
-					<p>name</p>
+					<p style="font-size:48px;">name</p>
+					<div style="display:block;height:5px;"></div>
+
 					<p>変換後のファイルにの単語が配列として保存されている</p>
 					<p>mappingsで使用される</p>
 					<p>重複されて記述されることはない</p>
@@ -161,193 +177,89 @@
 
 				<section>
 					<section style="text-align:left;">
-						<p>mappings</p>
-						<p>Base64 VLQというフォーマット</p>
+						<p style="font-size:48px;">mappings</p>
+						<div style="display:block;height:5px;"></div>
+
+						<p>Base64 VLQというので記述されている</p>
 						<p>絶対的に情報を指定せず、相対的に情報を指定する</p>
-						<p>恐ろしく複雑なのにsourcemapの規格書には詳細は定義されていない(どこにあるの…?)</p>
+						<p>複雑だけど規格書には詳細は定義されていない</p>
 
-						<p>こんなん↓</p>
-						<p>;AAAAA,EAAE,gBABC,CAAEB;</p>
-
-						<!--<p>ZigZagエンコーディングに似ている気がするけど関係とかあるんですかね…？</p>-->
-					</section>
-
-					<section style="text-align:left;">
-						<p>数値の規則</p>
-						<p style="line-height:1;margin:0;">-2<sup>31</sup> 〜 2<sup>31</sup>-1 が表現できる</p>
-
-						<pre style="margin:0;">
-							<code class="hljs" data-trim contenteditable>
-/* 以下の文字列は64文字存在する。「A」を0, 「/」を63とする */
-ABCDEFGHIJKLMNOPQRSTUVWXYZ
-abcdefghijklmnopqrstuvwxyz
-0123456789+/
-							</code>
-						</pre>
-						<p></p>
-						<p>任意の一単語は6桁の桁の2進数を意味する</p>
-
-						<div style="display:flex;line-height:0.5em;">
-							<p style="width:50%;">A => 000000</p>
-							<p style="width:50%;">C => 000010</p>
-						</div>
-
-						<div style="display:flex;">
-							<p style="width:50%;">Q => 010001</p>
-							<p style="width:50%;">g => 100000</p>
-						</div>
-					</section>
-
-					<section style="text-align:left;">
-						<p>6桁の数字の意味</p>
-
-						<table>
-							<tbody>
-								<tr>
-									<td>上1桁</td>
-									<td>continuous bit</td>
-									<td>次の単語のbitを5bitシフトする</td>
-								</tr>
-
-								<tr>
-									<td>中4桁</td>
-									<td>number bit</td>
-									<td>実際の値を示す</td>
-								</tr>
-
-								<tr>
-									<td>下1桁</td>
-									<td>sign bit</td>
-									<td>正の値か負の値か</td>
-								</tr>
-							</tbody>
-
-						</table>
-
-						<div style="display:flex;">
-							<div style="width:50%">
-								<p>ターゲット: G</p>
-								<p>2進数: 000110</p>
-								<p>結論: 3</p>
-							</div>
-							<div style="width:50%">
-								<p>continuous bit: 0</p>
-								<p>number bit: 0011</p>
-								<p>sign bit: 0</p>
-							</div>
-						</div>
-					</section>
-
-
-					<section style="text-align:left;">
-						<p>タノシイBase64 VLQの世界</p>
-
-						<p>こんなん↓</p>
+						<div style="display:block;height:5px;"></div>
+						<p>こんなの</p>
 						<p>;AAAAA,EAAE,gBABC,CAAEB;</p>
 					</section>
+					<section style="text-align:left;">
+						<h2>別資料へ…</h2>
+						<a href="">Base64 VLQ概要</a>
+					</section>
+				</section>
+
+				<section style="text-align:left">
+					<h3>その他の情報</h3>
+					<div style="display:block;height:5px;"></div>
+					<p>・inline sourcemap</p>
+					<p>・X-Sourcemap</p>
+				</section>
+
+				<section>
+					<section style="text-align:left">
+						<p style="font-size:48px;">inline sourcemap</p>
+						<div style="display:block;height:5px;"></div>
+
+						<p>ファイルに直接sourcemapの情報を書き込む</p>
+						<p>xxx.js.mapとかいらない</p>
+						<p>ファイルのサイズはお察し</p>
+					</section>
+
+					<section>
+						<p>こんな感じになる</p>
+						<img alt="" src="./img/inlineSourcemap.png" />
+					</section>
 
 					<section style="text-align:left;">
-						<p>こんなのスライドで説明していられるか!</p>
-						<p>俺は家に帰らせてもらう!!</p>
+						<img alt="" src="./img/inlineSourcemap.png" />
+						<p>sourceMappingURL=data:application/json;base64</p>
+						<p>jsonでbase64フォーマットだということを示して</p>
+						
+						<div style="display:block;height:5px;"></div>
+
+						<p>eyJ2ZXJzaW9uIjozLCJmaWxlIjoic291cmNlbWFwVGVzdC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uL3NyYy9zb3VyY2VtYXBUZXN0LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUdBLE9BQU8sQ0FBQyxHQUFHLENBQUMsT0FBTyxDQUFDLENBQUE7QUFDcEIsT0FBTyxDQUFDLEdBQUcsQ0FBQyxHQUFHLENBQUMsQ0FBQTtBQUVoQixJQUFNLEdBQUcsR0FBRyxVQUFDLEdBQVc7SUFDdEIsTUFBTSxDQUFDO1FBQ0wsSUFBSSxFQUFFLEdBQUc7S0FDVixDQUFBO0FBQ0gsQ0FBQyxDQUFBO0FBRUQsSUFBSSxDQUFDO0lBSUgsR0FBRyxDQUFDLFFBQVEsQ0FBQyxDQUFBO0FBQ2YsQ0FBQztBQUFDLEtBQUssQ0FBQyxDQUFDLEtBQUssQ0FBQyxDQUFDLENBQUM7SUFDZixPQUFPLENBQUMsS0FBSyxDQUFDLE9BQU8sQ0FBQyxDQUFBO0FBQ3hCLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyJpbnRlcmZhY2UgUG95byB7XG4gIGhvZ2UgOiBzdHJpbmc7XG59XG5jb25zb2xlLmxvZygnbnlhLW4nKVxuY29uc29sZS5sb2coMjQzKVxuXG5jb25zdCBhYmMgPSAoYXJnOiBzdHJpbmcpOiBQb3lvID0+IHtcbiAgcmV0dXJuIHtcbiAgICBob2dlOiBhcmdcbiAgfVxufVxuXG50cnkge1xuICBpbnRlcmZhY2UgTnlhbiB7XG4gICAgYXJhOiBudW1iZXI7XG4gIH1cbiAgYWJjKCdidWJlcmEnKVxufSBjYXRjaCAoZXJyb3IpIHtcbiAgY29uc29sZS5lcnJvcignZXJyb3InKVxufSJdfQ==</p>
+						<p>base64ベースの情報を続けて記述する</p>
+					</section>
+
+					<section>
+						<p>eyJ2ZXJzaW9uIjozLCJmaWxlIjoic291cmNlbWFwVGVzdC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uL3NyYy9zb3VyY2VtYXBUZXN0LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUdBLE9BQU8sQ0FBQyxHQUFHLENBQUMsT0FBTyxDQUFDLENBQUE7QUFDcEIsT0FBTyxDQUFDLEdBQUcsQ0FBQyxHQUFHLENBQUMsQ0FBQTtBQUVoQixJQUFNLEdBQUcsR0FBRyxVQUFDLEdBQVc7SUFDdEIsTUFBTSxDQUFDO1FBQ0wsSUFBSSxFQUFFLEdBQUc7S0FDVixDQUFBO0FBQ0gsQ0FBQyxDQUFBO0FBRUQsSUFBSSxDQUFDO0lBSUgsR0FBRyxDQUFDLFFBQVEsQ0FBQyxDQUFBO0FBQ2YsQ0FBQztBQUFDLEtBQUssQ0FBQyxDQUFDLEtBQUssQ0FBQyxDQUFDLENBQUM7SUFDZixPQUFPLENBQUMsS0FBSyxDQUFDLE9BQU8sQ0FBQyxDQUFBO0FBQ3hCLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyJpbnRlcmZhY2UgUG95byB7XG4gIGhvZ2UgOiBzdHJpbmc7XG59XG5jb25zb2xlLmxvZygnbnlhLW4nKVxuY29uc29sZS5sb2coMjQzKVxuXG5jb25zdCBhYmMgPSAoYXJnOiBzdHJpbmcpOiBQb3lvID0+IHtcbiAgcmV0dXJuIHtcbiAgICBob2dlOiBhcmdcbiAgfVxufVxuXG50cnkge1xuICBpbnRlcmZhY2UgTnlhbiB7XG4gICAgYXJhOiBudW1iZXI7XG4gIH1cbiAgYWJjKCdidWJlcmEnKVxufSBjYXRjaCAoZXJyb3IpIHtcbiAgY29uc29sZS5lcnJvcignZXJyb3InKVxufSJdfQ==</p>
+						<p>↓</p>
+						
 						<pre>
 							<code class="hljs" data-trim contenteditable>
-for (var i = 0; i < segment.length; ++i) {
-	var c = segment.charAt(i);
-	digit = BASE64_DIGIT_MAP[c];
-
-	continuation = digit & VLQ_CONTINUATION_BIT;
-	digit &= VLQ_BASE_MASK;
-	resultValue += digit << shift;
-	shift += VLQ_BASE_SHIFT;
-
-	if (continuation === 0) {
-		const isNegative = (resultValue & 1) == 1;
-		resultValue >>= 1;
-		numbersInSegment.push(isNegative ? -resultValue : resultValue);
-
-		resultValue = 0;
-		shift = 0;
-	}
+{
+	"version":3,
+	"file":"sourcemapTest.js",
+	"sourceRoot":"",
+	"sources":["../src/sourcemapTest.ts"],
+	"names":[],
+	"mappings":"AAGA,OAAO,CAAC,GAAG,CAAC,OAAO,CAAC,CAAA;AACpB,OAAO,CAAC,GAAG,CAAC,GAAG,CAAC,CAAA;AAEhB,IAAM,GAAG,GAAG,UAAC,GAAW;IACtB,MAAM,CAAC;QACL,IAAI,EAAE,GAAG;KACV,CAAA;AACH,CAAC,CAAA;AAED,IAAI,CAAC;IAIH,GAAG,CAAC,QAAQ,CAAC,CAAA;AACf,CAAC;AAAC,KAAK,CAAC,CAAC,KAAK,CAAC,CAAC,CAAC;IACf,OAAO,CAAC,KAAK,CAAC,OAAO,CAAC,CAAA;AACxB,CAAC",
+	"sourcesContent":["interface Poyo {\n  hoge : string;\n}\nconsole.log('nya-n')\nconsole.log(243)\n\nconst abc = (arg: string): Poyo => {\n  return {\n    hoge: arg\n  }\n}\n\ntry {\n  interface Nyan {\n    ara: number;\n  }\n  abc('bubera')\n} catch (error) {\n  console.error('error')\n}"]
 }
 							</code>
 						</pre>
-						<!--<p>変換後の列、sourcesのindex、変換前の行、変換前の列、nameのindex</p>
-						<p>Output column, input file name index, input line, input column, name index</p>-->
+
+
+
 					</section>
 				</section>
 
 				<section style="text-align:left;">
-					<h2>Base64 VLQの参考リンク</h2>
-					<p style="line-height:2;">
-						<a href="https://blogs.msdn.microsoft.com/davidni/2016/03/14/source-maps-under-the-hood-vlq-base64-and-yoda">
-							MS社の人の独自研究。規則性が知りたければこれ
-						</a>
-					</p>
-					<p style="line-height:2;">
-						<a href="http://murzwin.com/base64vlq.html">
-							BASE64のcoder/decoder。ソースが簡単に読める
-						</a>
-					</p>
-					<p style="line-height:2;">
-						<a href="http://safx-dev.blogspot.jp/2013/08/javascriptsource-map.html">
-							変換前後のsourcemapの対応図が非常にわかりやすい
-						</a>
-					</p>
-				</section>
-
-				<section>
-					<section style="text-align:left;">
-						<h2>例外</h2>
-						<p>webpackの出力するsourcemap</p>
-						<p>これまでに紹介してきたのとフォーマット全く違う</p>
-						<p style="line-height:2;">
-							正直あれが何なのかさっぱり分からない。誰か助けて…
-						</p>
-					</section>
-					<section style="text-align:left;">
-						<p>devtool: eval</p>
-						<img alt="" src="img/unknownFormatEval.png" />
-					</section>
-
-					<section style="text-align:left;">
-
-					</section>
-				</section>
-
-				<section>
-					<section>
-						<h3>sourcemap色々</h3>
-						<p>inline sourcemap</p>
-						<p>変換前のファイルが不要</p>
-						<p>header使って別サーバに配置できる</p>
-					</section>
-
-					<section>
-						<p>inline sourcemap</p>
-						<p></p>
-						<p>変換前のファイルが不要</p>
-						<p>header使って別サーバに配置できる</p>
-					</section>
-				</section>
-
-				<section>
-					<h2>ぶっちゃけ調べる必要あった?</h2>
-				</section>
-
-				<section>
-					<h2>ないです</h2>
-					<p>大体知らないでもwebpackとかが解決してくれてます</p>
-					<p>独自でAltJsとかやりたい際には役に立つのではないでしょうか?</p>
-				</section>
-
-
-				<section style="text-align:left;">
-					<h3>おまけ</h3>
-					<h3>明日に約立つsourcemap雑</h3>
+					<p style="font-size:48px;">X-Sourcemap</p>
+					<div style="display:block;height:5px;"></div>
+					<p>sourcemapの位置をヘッダーで指定する</p>
+					<p>ソースに不要な情報が表示されなくなる</p>
+					<p>正直ソース読む人はheaderも読みそうな気はする</p>
 				</section>
 
 				<section style="text-align:left;">
-					<h4>ライブラリ</h4>
+					<h4>便利なライブラリ集</h4>
 
 					<p>
 						<a href="https://github.com/mozilla/source-map">
@@ -366,8 +278,9 @@ for (var i = 0; i < segment.length; ++i) {
 					<p>上のライブラリのサンプルコードとして使える</p>
 				</section>
 
-
-
+				<section style="text-align:left;">
+					<h2>ご静聴ありがとうございました!</h2>
+				</section>
 
 			</div>
 		</div>
